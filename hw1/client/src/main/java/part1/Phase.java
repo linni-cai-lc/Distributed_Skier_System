@@ -10,23 +10,23 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Phase {
-    protected static final int MIN_WAIT_TIME = 0;
-    protected static final int MAX_WAIT_TIME = 10;
-    protected static final Integer RESORT_ID = 111;
-    protected static final String SEASON_ID = "WINTER";
-    protected static final String DAY_ID = "112";
+    public static final int MIN_WAIT_TIME = 0;
+    public static final int MAX_WAIT_TIME = 10;
+    public static final Integer RESORT_ID = 111;
+    public static final String SEASON_ID = "WINTER";
+    public static final String DAY_ID = "112";
 
-    protected int numThreads;
-    protected int numSkiers;
-    protected int startTime;
-    protected int endTime;
-    protected int numLifts;
-    protected int numPosts;
-    protected AtomicInteger numSuccessReq;
-    protected AtomicInteger numUnsuccessReq;
-    protected CountDownLatch totalCompleted;
-    protected CountDownLatch nextPhaseCompleted;
-    protected SkiersApi skiersApi;
+    public int numThreads;
+    public int numSkiers;
+    public int startTime;
+    public int endTime;
+    public int numLifts;
+    public int numPosts;
+    public AtomicInteger numSuccessReq;
+    public AtomicInteger numUnsuccessReq;
+    public CountDownLatch totalCompleted;
+    public CountDownLatch nextPhaseCompleted;
+    public SkiersApi skiersApi;
 
     public Phase(int numThreads, int numSkiers, int startTime, int endTime, int numLifts,
                  int numPosts, AtomicInteger numSuccessReq, AtomicInteger numUnsuccessReq,

@@ -1,27 +1,27 @@
 package part1;
 
 public class CommandLineParser {
-    protected int numThreads;
-    protected int numSkiers;
-    protected int numLifts;
-    protected int numRuns;
-    protected String ipAddress;
+    public int numThreads;
+    public int numSkiers;
+    public int numLifts;
+    public int numRuns;
+    public String ipAddress;
 
-    protected static final String ARG_PREFIX = "--";
-    protected static final String NUM_THREADS = "num_threads";
-    protected static final String NUM_SKIERS = "num_skiers";
-    protected static final String NUM_LIFTS = "num_lifts";
-    protected static final String NUM_RUNS = "num_runs";
-    protected static final String IP_ADDRESS = "ip_address";
+    public static final String ARG_PREFIX = "--";
+    public static final String NUM_THREADS = "num_threads";
+    public static final String NUM_SKIERS = "num_skiers";
+    public static final String NUM_LIFTS = "num_lifts";
+    public static final String NUM_RUNS = "num_runs";
+    public static final String IP_ADDRESS = "ip_address";
 
-    protected static final int SKI_DAY = 420;
-    protected static final int MAX_NUM_THREADS = 1024;
-    protected static final int MAX_NUM_SKIERS = 100000;
-    protected static final int DEFAULT_NUM_LIFTS = 40;
-    protected static final int MIN_NUM_LIFTS = 5;
-    protected static final int MAX_NUM_LIFTS = 60;
-    protected static final int DEFAULT_NUM_RUNS = 10;
-    protected static final int MAX_NUM_RUNS = 20;
+    public static final int SKI_DAY = 420;
+    public static final int MAX_NUM_THREADS = 1024;
+    public static final int MAX_NUM_SKIERS = 100000;
+    public static final int DEFAULT_NUM_LIFTS = 40;
+    public static final int MIN_NUM_LIFTS = 5;
+    public static final int MAX_NUM_LIFTS = 60;
+    public static final int DEFAULT_NUM_RUNS = 10;
+    public static final int MAX_NUM_RUNS = 20;
 
     public CommandLineParser(int numThreads, int numSkiers, int numLifts, int numRuns, String ipAddress) {
         this.numThreads = numThreads;

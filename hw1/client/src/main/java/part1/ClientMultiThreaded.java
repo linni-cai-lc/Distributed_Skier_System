@@ -7,7 +7,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClientMultiThreaded {
-//    private static final String PATH = "/hw1_war_exploded/ski"; // LOCAL
+    //    private static final String PATH = "/hw1_war_exploded/ski"; // LOCAL
     private static final String PATH = "/hw1_war/ski"; // AWS
     private static final String HTTP_PREFIX = "http://";
     private static final double PHASE_PCT = 0.2;
