@@ -6,6 +6,8 @@ import io.swagger.client.api.SkiersApi;
 import io.swagger.client.model.LiftRide;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,6 +17,7 @@ public class Phase {
     public static final Integer RESORT_ID = 111;
     public static final String SEASON_ID = "WINTER";
     public static final String DAY_ID = "112";
+    public static final String POST = "POST";
 
     public int numThreads;
     public int numSkiers;
@@ -27,6 +30,7 @@ public class Phase {
     public CountDownLatch totalCompleted;
     public CountDownLatch nextPhaseCompleted;
     public SkiersApi skiersApi;
+    public List<String[]> records = new ArrayList<>();
 
     public Phase(int numThreads, int numSkiers, int startTime, int endTime, int numLifts,
                  int numPosts, AtomicInteger numSuccessReq, AtomicInteger numUnsuccessReq,
@@ -91,11 +95,16 @@ public class Phase {
             public void run() {
                 // POST
                 for (int i = 0; i < numPosts; i++) {
+                    String statusCode = "N/A";
                     int skierId = getRandomSkierId(i);
 //                    System.out.println(String.format("------- THREAD: %d, POST: %d, ID: %d ---------", threadIndex, i, skierId));
                     LiftRide liftRide = createLiftRide();
+
+                    long start = System.currentTimeMillis();
+
                     try {
                         ApiResponse<Void> res = skiersApi.writeNewLiftRideWithHttpInfo(liftRide, RESORT_ID, SEASON_ID, DAY_ID, skierId);
+                        statusCode = String.valueOf(res.getStatusCode());
                         if (res.getStatusCode() == HttpServletResponse.SC_CREATED) {
                             numSuccessReq.incrementAndGet();
                         } else {
@@ -105,6 +114,13 @@ public class Phase {
                         numUnsuccessReq.incrementAndGet();
                         e.printStackTrace();
                     }
+
+                    long end = System.currentTimeMillis();
+                    long duration = end - start;
+                    //   0            1                      2        3
+                    // {start time, request type (ie POST), latency, response code}
+                    String[] record = {String.valueOf(start), POST, String.valueOf(duration), statusCode};
+                    records.add(record);
                 }
                 totalCompleted.countDown();
                 nextPhaseCompleted.countDown();

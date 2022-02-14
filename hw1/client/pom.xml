@@ -141,6 +141,14 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -237,6 +245,11 @@
       <artifactId>junit</artifactId>
       <version>${junit-version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>4.0</version>
     </dependency>
   </dependencies>
   <properties>

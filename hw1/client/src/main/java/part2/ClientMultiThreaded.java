@@ -3,6 +3,9 @@ package part2;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.SkiersApi;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,7 +15,7 @@ public class ClientMultiThreaded {
     private static final String HTTP_PREFIX = "http://";
     private static final double PHASE_PCT = 0.2;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, FileNotFoundException {
         // LOCAL --num_threads 64 --num_skiers 128 --num_lifts 40 --num_runs 20 --ip_address 152.44.141.6:8080
         // AWS   --num_threads 64 --num_skiers 128 --num_lifts 40 --num_runs 20 --ip_address 54.200.234.195:8080
         CommandLineParser parser = CommandLineParser.parseCommandArgs(args);
@@ -85,10 +88,28 @@ public class ClientMultiThreaded {
 
         long duration = end - start;
         long throughput = (numSuccessReq.get() + numUnsuccessReq.get()) / (duration / 1000);
-        System.out.println("------  Statistics  ------");
+        System.out.println("\n------  Statistics  ------\n");
+        System.out.println("------  PART 1  ------");
         System.out.println("number of successful requests sent: " + numSuccessReq);
         System.out.println("number of unsuccessful requests: " + numUnsuccessReq);
         System.out.println("the total run time for all phases to complete: " + duration);
         System.out.println("the total throughput in requests per second: " + throughput);
+        System.out.println();
+
+        List<String[]> records = new ArrayList<>();
+        records.addAll(phase1.records);
+        records.addAll(phase2.records);
+        records.addAll(phase3.records);
+        CSVProcessor processor = new CSVProcessor(records, start);
+        processor.generateCSV();
+
+        System.out.println("------  PART 2  ------");
+        Calculator calculator = new Calculator(records, start, end);
+        System.out.println("mean response time (millisecs): " + calculator.getMeanResponse());
+        System.out.println("median response time (millisecs): " + calculator.getMedianResponse());
+        System.out.println("throughput: " + calculator.getThroughput());
+        System.out.println("p99 (99th percentile) response time: " + calculator.getP99Response());
+        System.out.println("min response time (millisecs): " + calculator.getMinResponse());
+        System.out.println("max response time (millisecs): " + calculator.getMaxResponse());
     }
 }
