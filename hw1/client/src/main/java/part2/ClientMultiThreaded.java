@@ -2,8 +2,6 @@ package part2;
 
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.SkiersApi;
-import part1.CommandLineParser;
-import part1.Phase;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
