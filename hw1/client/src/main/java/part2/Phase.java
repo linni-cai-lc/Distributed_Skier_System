@@ -96,7 +96,7 @@ public class Phase {
                 // POST
                 for (int i = 0; i < numPosts; i++) {
                     String statusCode = "N/A";
-                    int skierId = getRandomSkierId(i);
+                    int skierId = getRandomSkierId(threadIndex);
 //                    System.out.println(String.format("------- THREAD: %d, POST: %d, ID: %d ---------", threadIndex, i, skierId));
                     LiftRide liftRide = createLiftRide();
 

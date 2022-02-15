@@ -91,7 +91,7 @@ public class Phase {
             public void run() {
                 // POST
                 for (int i = 0; i < numPosts; i++) {
-                    int skierId = getRandomSkierId(i);
+                    int skierId = getRandomSkierId(threadIndex);
 //                    System.out.println(String.format("------- THREAD: %d, POST: %d, ID: %d ---------", threadIndex, i, skierId));
                     LiftRide liftRide = createLiftRide();
                     try {
@@ -107,7 +107,9 @@ public class Phase {
                     }
                 }
                 totalCompleted.countDown();
-                nextPhaseCompleted.countDown();
+                if (nextPhaseCompleted != null) {
+                    nextPhaseCompleted.countDown();
+                }
             }
         };
     }
