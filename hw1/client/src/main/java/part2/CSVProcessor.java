@@ -16,7 +16,7 @@ public class CSVProcessor {
         this.records = records;
         this.start = start;
     }
-    public void generateCSV() throws FileNotFoundException {
+    public void generateCSV() {
         try (
             Writer writer = Files.newBufferedWriter(Paths.get(FILE_PATH));
             CSVWriter csvWriter = new CSVWriter(writer,

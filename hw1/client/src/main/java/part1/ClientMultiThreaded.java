@@ -16,18 +16,18 @@ public class ClientMultiThreaded {
         // LOCAL --num_threads 64 --num_skiers 128 --num_lifts 40 --num_runs 20 --ip_address 152.44.141.6:8080
         // AWS   --num_threads 64 --num_skiers 128 --num_lifts 40 --num_runs 20 --ip_address 54.200.234.195:8080
         CommandLineParser parser = CommandLineParser.parseCommandArgs(args);
-        ApiClient apiClient = new ApiClient();
-        // LOCAL http://152.44.141.6:8080/hw1_war_exploded/ski
-        // AWS   http://54.200.234.195:8080/hw1_war/ski
-        String path = HTTP_PREFIX + parser.ipAddress + PATH;
-        apiClient.setBasePath(path);
-        SkiersApi skiersApi = new SkiersApi(apiClient);
-
         int numThreads = parser.numThreads;
         int numSkiers = parser.numSkiers;
         int numLifts = parser.numLifts;
         int numRuns = parser.numRuns;
         String ipAddress = parser.ipAddress;
+
+        // LOCAL http://152.44.141.6:8080/hw1_war_exploded/ski
+        // AWS   http://54.200.234.195:8080/hw1_war/ski
+        String path = HTTP_PREFIX + ipAddress + PATH;
+        ApiClient apiClient = new ApiClient();
+        apiClient.setBasePath(path);
+        SkiersApi skiersApi = new SkiersApi(apiClient);
 
         int numThreadsPhase1 = numThreads / 4;
         int numThreadsPhase2 = numThreads;
