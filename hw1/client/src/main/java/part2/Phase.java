@@ -123,7 +123,9 @@ public class Phase {
                     records.add(record);
                 }
                 totalCompleted.countDown();
-                nextPhaseCompleted.countDown();
+                if (nextPhaseCompleted != null) {
+                    nextPhaseCompleted.countDown();
+                }
             }
         };
     }
