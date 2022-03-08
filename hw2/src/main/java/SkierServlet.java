@@ -1,7 +1,16 @@
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.rabbitmq.client.Channel;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "SkierServlet", value = "/SkierServlet")
 public class SkierServlet extends HttpServlet {
@@ -12,6 +21,20 @@ public class SkierServlet extends HttpServlet {
     private String SKIERS = "skiers";
     private String VERTICAL = "vertical";
     private String STATISTICS = "statistics";
+    private String SERVER_QUEUE = "server_queue";
+    private ObjectPool<Channel> pool;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            pool = new GenericObjectPool<>(new ChannelFactory());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -30,7 +53,7 @@ public class SkierServlet extends HttpServlet {
         // resorts GET: get a list of ski resorts in the database
         //  0    1
         // ["", "resorts"]
-        if (urlPartsSize == 2 && urlParts[1].equals(RESORTS)) {
+        if (urlPartsSize == 2 && urlParts[1].equalsIgnoreCase(RESORTS)) {
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("{\n" +
                     "  \"resorts\": [\n" +
@@ -44,7 +67,11 @@ public class SkierServlet extends HttpServlet {
         // resorts GET: get number of unique skiers at resort/season/day
         //  0    1         2           3       4           5      6       7
         // ["", "resorts", resortID, "seasons", seasonID, "day", dayID, "skiers"]
-        else if (urlPartsSize == 8 && urlParts[1].equals(RESORTS) && urlParts[3].equals(SEASONS) && urlParts[5].equals(DAY) && urlParts[7].equals(SKIERS)) {
+        else if (urlPartsSize == 8 &&
+                 urlParts[1].equalsIgnoreCase(RESORTS) &&
+                 urlParts[3].equalsIgnoreCase(SEASONS) &&
+                 urlParts[5].equalsIgnoreCase(DAY) &&
+                 urlParts[7].equalsIgnoreCase(SKIERS)) {
             String resortId = urlParts[2];
             String seasonID = urlParts[4];
             String dayID = urlParts[6];
@@ -57,7 +84,9 @@ public class SkierServlet extends HttpServlet {
         // resorts GET: get a list of seasons for the specified resort
         //  0    1         2           3
         // ["", "resorts", resortID, "seasons"]
-        else if (urlPartsSize == 4 && urlParts[1].equals(RESORTS) && urlParts[3].equals(SEASONS)) {
+        else if (urlPartsSize == 4 &&
+                 urlParts[1].equalsIgnoreCase(RESORTS) &&
+                 urlParts[3].equalsIgnoreCase(SEASONS)) {
             String resortId = urlParts[2];
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("{\n" +
@@ -69,7 +98,11 @@ public class SkierServlet extends HttpServlet {
         // skiers GET: get the total vertical for the skier for the specified ski day
         //  0    1         2           3       4           5      6       7        8
         // ["", "skiers", resortID, "seasons", seasonID, "days", dayID, "skiers", skierID]
-        else if (urlPartsSize == 9 && urlParts[1].equals(SKIERS) && urlParts[3].equals(SEASONS) && urlParts[5].equals(DAYS) && urlParts[7].equals(SKIERS)) {
+        else if (urlPartsSize == 9 &&
+                 urlParts[1].equalsIgnoreCase(SKIERS) &&
+                 urlParts[3].equalsIgnoreCase(SEASONS) &&
+                 urlParts[5].equalsIgnoreCase(DAYS) &&
+                 urlParts[7].equalsIgnoreCase(SKIERS)) {
             String resortId = urlParts[2];
             String seasonID = urlParts[4];
             String dayID = urlParts[6];
@@ -80,7 +113,7 @@ public class SkierServlet extends HttpServlet {
         // skiers GET: get the total vertical for the skier the specified resort. If no season is specified, return all seasons
         //  0    1         2           3
         // ["", "skiers", skierID, "vertical"]
-        else if (urlPartsSize == 4 && urlParts[1].equals(SKIERS) && urlParts[3].equals(VERTICAL)) {
+        else if (urlPartsSize == 4 && urlParts[1].equalsIgnoreCase(SKIERS) && urlParts[3].equalsIgnoreCase(VERTICAL)) {
             String skierID = urlParts[2];
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("{\n" +
@@ -95,7 +128,7 @@ public class SkierServlet extends HttpServlet {
         // skiers GET: get the API performance stats
         //  0    1
         // ["", "statistics"]
-        else if (urlPartsSize == 2 && urlParts[1].equals(STATISTICS)) {
+        else if (urlPartsSize == 2 && urlParts[1].equalsIgnoreCase(STATISTICS)) {
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("{\n" +
                     "  \"endpointStats\": [\n" +
@@ -130,24 +163,60 @@ public class SkierServlet extends HttpServlet {
         // resorts POST: Add a new season for a resort
         //  0    1          2          3
         // ["", "resorts", resortID, "seasons"]
-        if (urlPartsSize == 4 && urlParts[1].equals(RESORTS) && urlParts[3].equals(SEASONS)) {
+        if (urlPartsSize == 4 && urlParts[1].equalsIgnoreCase(RESORTS) && urlParts[3].equalsIgnoreCase(SEASONS)) {
             String resortId = urlParts[2];
+
+            String postBodyStr = req.getReader().lines().collect(Collectors.joining());
+            JsonObject postBodyJson = new JsonParser().parse(postBodyStr).getAsJsonObject();
+            postBodyJson.addProperty("resortId", resortId);
+            sendDataToQueue(postBodyJson);
+
             res.setStatus(HttpServletResponse.SC_CREATED);
             res.getWriter().write("new season created");
         }
         // skiers POST: write a new lift ride for the skier
         //  0    1         2           3       4           5      6       7        8
         // ["", "skiers", resortID, "seasons", seasonID, "days", dayID, "skiers", skierID]
-        else if (urlPartsSize == 9 && urlParts[1].equals(SKIERS) && urlParts[3].equals(SEASONS) && urlParts[5].equals(DAYS) && urlParts[7].equals(SKIERS)) {
+        else if (urlPartsSize == 9 &&
+                 urlParts[1].equalsIgnoreCase(SKIERS) &&
+                 urlParts[3].equalsIgnoreCase(SEASONS) &&
+                 urlParts[5].equalsIgnoreCase(DAYS) &&
+                 urlParts[7].equalsIgnoreCase(SKIERS)) {
             String resortId = urlParts[2];
             String seasonID = urlParts[4];
             String dayID = urlParts[6];
             String skierID = urlParts[8];
+
+            String postBodyStr = req.getReader().lines().collect(Collectors.joining());
+            JsonObject postBodyJson = new JsonParser().parse(postBodyStr).getAsJsonObject();
+            postBodyJson.addProperty("resortId", resortId);
+            postBodyJson.addProperty("seasonID", seasonID);
+            postBodyJson.addProperty("dayID", dayID);
+            postBodyJson.addProperty("skierID", skierID);
+            sendDataToQueue(postBodyJson);
+
             res.setStatus(HttpServletResponse.SC_CREATED);
             res.getWriter().write("Write successful");
         } else {
             res.setStatus(HttpServletResponse.SC_NOT_FOUND);
             res.getWriter().write("URL format or parameters are invalid");
         }
+    }
+
+    private boolean sendDataToQueue(JsonObject bodyJson) {
+         try {
+             Channel channel = pool.borrowObject();
+             channel.queueDeclare(SERVER_QUEUE, true, false, false, null);
+             channel.basicPublish("", SERVER_QUEUE, null, bodyJson.toString().getBytes(StandardCharsets.UTF_8));
+             pool.returnObject(channel);
+             System.out.println("POST BODY: " + bodyJson);
+             return true;
+         } catch (IOException e) {
+             e.printStackTrace();
+             return false;
+         } catch (Exception e) {
+             e.printStackTrace();
+             return false;
+         }
     }
 }
