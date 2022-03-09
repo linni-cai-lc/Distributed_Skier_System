@@ -171,6 +171,7 @@ public class SkierServlet extends HttpServlet {
                 String postBodyStr = req.getReader().lines().collect(Collectors.joining());
                 JsonObject postBodyJson = new JsonParser().parse(postBodyStr).getAsJsonObject();
                 postBodyJson.addProperty("resortId", resortId);
+                postBodyJson.addProperty("type", "resorts");
                 sendDataToQueue(postBodyJson);
                 res.setStatus(HttpServletResponse.SC_CREATED);
                 res.getWriter().write("new season created");
@@ -199,6 +200,7 @@ public class SkierServlet extends HttpServlet {
                 postBodyJson.addProperty("seasonID", seasonID);
                 postBodyJson.addProperty("dayID", dayID);
                 postBodyJson.addProperty("skierID", skierID);
+                postBodyJson.addProperty("type", "skiers");
                 sendDataToQueue(postBodyJson);
                 res.setStatus(HttpServletResponse.SC_CREATED);
                 res.getWriter().write("Write successful");
