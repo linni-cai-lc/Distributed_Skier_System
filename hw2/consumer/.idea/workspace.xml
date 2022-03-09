@@ -10,16 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83afcb43-3380-4856-82a7-aff524a33c21" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../hw1/bonus.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../hw1/hw1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../hw1/hw1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/part2/CSVProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/part2/CSVProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/part2/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/part2/Calculator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../hw2/bonus.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main/java/part2/Phase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/part2/Phase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Config.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ConfigProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/config.properties" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +101,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1646838444411</updated>
-      <workItem from="1646838447470" duration="11543000" />
+      <workItem from="1646838447470" duration="16926000" />
     </task>
     <servers />
   </component>

@@ -16,6 +16,8 @@ public class MultiThreadedConsumer {
     private static String HOST = "34.221.63.227";
     private static String USERNAME = "test";
     private static String PASSWORD = "test";
+    private static String VHOST = "/";
+
     private static int MAX_THREAD = 64;
     private static String RESORTS = "resorts";
     private static String SKIERS = "skiers";
@@ -31,6 +33,7 @@ public class MultiThreadedConsumer {
         connectionFactory.setHost(HOST);
         connectionFactory.setUsername(USERNAME);
         connectionFactory.setPassword(PASSWORD);
+        connectionFactory.setVirtualHost(VHOST);
         Connection connection = connectionFactory.newConnection();
         Runnable runnable = new Runnable() {
             @Override
