@@ -18,6 +18,7 @@ public class Phase {
     public static final String SEASON_ID = "WINTER";
     public static final String DAY_ID = "112";
     public static final String POST = "POST";
+    private static final int MAX_TRY_COUNT = 5;
 
     public int numThreads;
     public int numSkiers;
@@ -100,22 +101,33 @@ public class Phase {
 //                    System.out.println(String.format("------- THREAD: %d, POST: %d, ID: %d ---------", threadIndex, i, skierId));
                     LiftRide liftRide = createLiftRide();
 
-                    long start = System.currentTimeMillis();
+                    long start = -1;
+                    long end = -1;
+                    boolean successFlag = false;
+                    for (int j = 0; j < MAX_TRY_COUNT; j++) {
+                        try {
+                            start = System.currentTimeMillis();
+                            ApiResponse<Void> res = skiersApi.writeNewLiftRideWithHttpInfo(liftRide, RESORT_ID, SEASON_ID, DAY_ID, skierId);
+                            end = System.currentTimeMillis();
 
-                    try {
-                        ApiResponse<Void> res = skiersApi.writeNewLiftRideWithHttpInfo(liftRide, RESORT_ID, SEASON_ID, DAY_ID, skierId);
-                        statusCode = String.valueOf(res.getStatusCode());
-                        if (res.getStatusCode() == HttpServletResponse.SC_CREATED) {
-                            numSuccessReq.incrementAndGet();
-                        } else {
-                            numUnsuccessReq.incrementAndGet();
+                            statusCode = String.valueOf(res.getStatusCode());
+                            if (res.getStatusCode() == HttpServletResponse.SC_CREATED) {
+                                successFlag = true;
+                                break;
+                            } else {
+                                System.out.println(String.format("ERROR: %d time POST Failure with invalid status", j + 1));
+                            }
+                        } catch (ApiException e) {
+                            System.out.println(String.format("ERROR: %d time POST Failure with API Exception", j + 1));
                         }
-                    } catch (ApiException e) {
-                        numUnsuccessReq.incrementAndGet();
-                        e.printStackTrace();
                     }
 
-                    long end = System.currentTimeMillis();
+                    if (successFlag) {
+                        numSuccessReq.incrementAndGet();
+                    } else {
+                        numUnsuccessReq.incrementAndGet();
+                    }
+
                     long duration = end - start;
                     //   0            1                      2        3
                     // {start time, request type (ie POST), latency, response code}
