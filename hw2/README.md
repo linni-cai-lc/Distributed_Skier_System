@@ -27,23 +27,23 @@ sudo scp -i /Users/linni/Desktop/aws_0213.pem /Users/linni/Documents/CS6650/HW/h
 
 AWS example:
 - GET http://54.200.234.195:8080/hw2_war/ski/resorts
-```
-{
-  "resorts": [
-    {
-      "resortName": "Creek Lake",
-      "resortID": 0
-    }
-  ]
-}
-```
+  ```
+  {
+    "resorts": [
+      {
+        "resortName": "Creek Lake",
+        "resortID": 0
+      }
+    ]
+  }
+  ```
 - POST http://54.200.234.195:8080/server_war/ski/skiers/12/seasons/13/days/14/skiers/16
-- Request Body JSON
-```
-{
-  "time": 217,
-  "liftID": 21,
-  "waitTime": 3
-}
-```
-- Return `Write successful`
+  - Request Body JSON
+  ```
+  {
+    "time": 217,
+    "liftID": 21,
+    "waitTime": 3
+  }
+  ```
+  - Return `Write successful`
