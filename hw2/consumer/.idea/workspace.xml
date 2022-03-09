@@ -10,12 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83afcb43-3380-4856-82a7-aff524a33c21" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../hw2/bonus.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hw2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/part2/Phase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/part2/Phase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/config.properties" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
