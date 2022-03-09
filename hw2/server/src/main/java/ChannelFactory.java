@@ -11,8 +11,7 @@ import java.util.concurrent.TimeoutException;
 public class ChannelFactory extends BasePooledObjectFactory<Channel> {
     private String username = "test";
     private String password = "test";
-//    private String host = "152.44.141.6"; // HOME
-    private String host = "63.208.141.34"; // NEU
+    private String host = "34.221.63.227"; // rabbitmq instance ip
     private Connection connection;
 
     public ChannelFactory() throws IOException, TimeoutException {

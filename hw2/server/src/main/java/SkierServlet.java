@@ -30,8 +30,10 @@ public class SkierServlet extends HttpServlet {
         try {
             pool = new GenericObjectPool<>(new ChannelFactory());
         } catch (IOException e) {
+            System.out.println("ERROR: Fail to initialize.");
             e.printStackTrace();
         } catch (TimeoutException e) {
+            System.out.println("ERROR: Fail to initialize.");
             e.printStackTrace();
         }
     }
@@ -147,7 +149,7 @@ public class SkierServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         res.setContentType("application/json");
         String urlPath = req.getPathInfo();
         if (urlPath == null || urlPath.isEmpty()) {
@@ -165,14 +167,18 @@ public class SkierServlet extends HttpServlet {
         // ["", "resorts", resortID, "seasons"]
         if (urlPartsSize == 4 && urlParts[1].equalsIgnoreCase(RESORTS) && urlParts[3].equalsIgnoreCase(SEASONS)) {
             String resortId = urlParts[2];
-
-            String postBodyStr = req.getReader().lines().collect(Collectors.joining());
-            JsonObject postBodyJson = new JsonParser().parse(postBodyStr).getAsJsonObject();
-            postBodyJson.addProperty("resortId", resortId);
-            sendDataToQueue(postBodyJson);
-
-            res.setStatus(HttpServletResponse.SC_CREATED);
-            res.getWriter().write("new season created");
+            try {
+                String postBodyStr = req.getReader().lines().collect(Collectors.joining());
+                JsonObject postBodyJson = new JsonParser().parse(postBodyStr).getAsJsonObject();
+                postBodyJson.addProperty("resortId", resortId);
+                sendDataToQueue(postBodyJson);
+                res.setStatus(HttpServletResponse.SC_CREATED);
+                res.getWriter().write("new season created");
+            } catch (Exception e) {
+                e.printStackTrace();
+                res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                res.getWriter().write("POST body is invalid");
+            }
         }
         // skiers POST: write a new lift ride for the skier
         //  0    1         2           3       4           5      6       7        8
@@ -186,17 +192,21 @@ public class SkierServlet extends HttpServlet {
             String seasonID = urlParts[4];
             String dayID = urlParts[6];
             String skierID = urlParts[8];
-
-            String postBodyStr = req.getReader().lines().collect(Collectors.joining());
-            JsonObject postBodyJson = new JsonParser().parse(postBodyStr).getAsJsonObject();
-            postBodyJson.addProperty("resortId", resortId);
-            postBodyJson.addProperty("seasonID", seasonID);
-            postBodyJson.addProperty("dayID", dayID);
-            postBodyJson.addProperty("skierID", skierID);
-            sendDataToQueue(postBodyJson);
-
-            res.setStatus(HttpServletResponse.SC_CREATED);
-            res.getWriter().write("Write successful");
+            try {
+                String postBodyStr = req.getReader().lines().collect(Collectors.joining());
+                JsonObject postBodyJson = new JsonParser().parse(postBodyStr).getAsJsonObject();
+                postBodyJson.addProperty("resortId", resortId);
+                postBodyJson.addProperty("seasonID", seasonID);
+                postBodyJson.addProperty("dayID", dayID);
+                postBodyJson.addProperty("skierID", skierID);
+                sendDataToQueue(postBodyJson);
+                res.setStatus(HttpServletResponse.SC_CREATED);
+                res.getWriter().write("Write successful");
+            } catch (Exception e) {
+                e.printStackTrace();
+                res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                res.getWriter().write("POST body is invalid");
+            }
         } else {
             res.setStatus(HttpServletResponse.SC_NOT_FOUND);
             res.getWriter().write("URL format or parameters are invalid");
@@ -209,12 +219,14 @@ public class SkierServlet extends HttpServlet {
              channel.queueDeclare(SERVER_QUEUE, true, false, false, null);
              channel.basicPublish("", SERVER_QUEUE, null, bodyJson.toString().getBytes(StandardCharsets.UTF_8));
              pool.returnObject(channel);
-             System.out.println("POST BODY: " + bodyJson);
+             System.out.println(String.format(" [x] Sent '%s'", bodyJson));
              return true;
          } catch (IOException e) {
+             System.out.println("ERROR: Fail to send data to queue.");
              e.printStackTrace();
              return false;
          } catch (Exception e) {
+             System.out.println("ERROR: Fail to send data to queue.");
              e.printStackTrace();
              return false;
          }
