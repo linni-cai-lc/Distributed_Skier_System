@@ -7,8 +7,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClientMultiThreaded {
-    //    private static final String PATH = "/hw1_war_exploded/ski"; // LOCAL
-    private static final String PATH = "/hw1_war/ski"; // AWS
+    //    private static final String PATH = "/server_war_exploded/ski"; // LOCAL
+    private static final String PATH = "/server_war/ski"; // AWS
     private static final String HTTP_PREFIX = "http://";
     private static final double PHASE_PCT = 0.2;
 
@@ -22,8 +22,8 @@ public class ClientMultiThreaded {
         int numRuns = parser.numRuns;
         String ipAddress = parser.ipAddress;
 
-        // LOCAL http://152.44.141.6:8080/hw1_war_exploded/ski
-        // AWS   http://54.200.234.195:8080/hw1_war/ski
+        // LOCAL http://152.44.141.6:8080/server_war_exploded/ski
+        // AWS   http://54.200.234.195:8080/server_war/ski
         String path = HTTP_PREFIX + ipAddress + PATH;
         ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(path);
