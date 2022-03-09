@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 public class MultiThreadedConsumer {
     private static String SERVER_QUEUE = "server_queue";
-    private static int PER_CONSUMER_LIMIT = 10;
+    private static int PER_CONSUMER_LIMIT = 1;
     private ConcurrentMap<Integer, List<SkierInfo>> skierInfoMap = new ConcurrentHashMap<>();
     private ConcurrentMap<Integer, List<ResortInfo>> resortInfoMap = new ConcurrentHashMap<>();
     private ConcurrentMap<Integer, List<StatisticsInfo>> statInfoMap = new ConcurrentHashMap<>();
@@ -34,11 +34,11 @@ public class MultiThreadedConsumer {
                     Channel channel = connection.createChannel();
                     channel.queueDeclare(SERVER_QUEUE, true, false, false, null);
                     channel.basicQos(PER_CONSUMER_LIMIT);
-                    System.out.println("*** wait for message, exit with COMMAND+C ***");
+                    System.out.println("[*] Waiting for messages. To exit press CTRL+C");
                     DeliverCallback deliverCallback = (tag, delivery) -> {
                         String msg = new String(delivery.getBody(), "UTF-8");
                         channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-                        System.out.println(String.format("*** received message: %s ***", msg));
+                        System.out.println(String.format("[x] Received '%s..'", msg));
 //                        updateInfoInMap(msg);
                     };
                     channel.basicConsume(SERVER_QUEUE, false, deliverCallback, tag -> {});

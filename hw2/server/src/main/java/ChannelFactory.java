@@ -9,13 +9,17 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 public class ChannelFactory extends BasePooledObjectFactory<Channel> {
+    private String username = "test";
+    private String password = "test";
+//    private String host = "152.44.141.6"; // HOME
+    private String host = "63.208.141.34"; // NEU
     private Connection connection;
 
     public ChannelFactory() throws IOException, TimeoutException {
         ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost("152.44.141.6");
-        connectionFactory.setUsername("linni");
-        connectionFactory.setPassword("123456");
+        connectionFactory.setHost(host);
+        connectionFactory.setUsername(username);
+        connectionFactory.setPassword(password);
         connection = connectionFactory.newConnection();
     }
 
