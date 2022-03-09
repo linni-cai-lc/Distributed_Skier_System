@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class CSVProcessor {
-    private static final String RESULT_FILE_PATH = "/Users/linni/Documents/CS6650/HW/hw1/hw1.csv";
+    private static final String RESULT_FILE_PATH = "/Users/linni/Documents/CS6650/HW/hw2/hw2.csv";
     private static final String BONUS_FILE_PATH = "/Users/linni/Documents/CS6650/HW/hw1/bonus.csv";
     public List<String[]> records;
     public long start;
