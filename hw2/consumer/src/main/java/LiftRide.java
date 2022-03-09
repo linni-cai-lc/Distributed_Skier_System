@@ -1,17 +1,8 @@
 import java.util.Objects;
-import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.v3.oas.annotations.media.Schema;
-import java.io.IOException;
 /**
  * LiftRide
  */
-
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-02-13T19:56:22.938Z[GMT]")
 public class LiftRide {
     @SerializedName("time")
     private Integer time = null;
@@ -31,7 +22,6 @@ public class LiftRide {
      * Get time
      * @return time
      **/
-    @Schema(example = "217", description = "")
     public Integer getTime() {
         return time;
     }
@@ -49,7 +39,6 @@ public class LiftRide {
      * Get liftID
      * @return liftID
      **/
-    @Schema(example = "21", description = "")
     public Integer getLiftID() {
         return liftID;
     }
@@ -67,7 +56,6 @@ public class LiftRide {
      * Get waitTime
      * @return waitTime
      **/
-    @Schema(example = "3", description = "")
     public Integer getWaitTime() {
         return waitTime;
     }
