@@ -13,6 +13,10 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeoutException;
 
 public class MultiThreadedConsumer {
+    private static String HOST = "34.221.63.227";
+    private static String USERNAME = "test";
+    private static String PASSWORD = "test";
+    private static int MAX_THREAD = 64;
     private static String RESORTS = "resorts";
     private static String SKIERS = "skiers";
     private static String SERVER_QUEUE = "server_queue";
@@ -23,14 +27,10 @@ public class MultiThreadedConsumer {
     private static ConcurrentMap<Integer, List<String>> resortSeasonMap = new ConcurrentHashMap<>();
 
     public static void main(String args[]) throws IOException, TimeoutException {
-        Config config = ConfigProcessor.processConfig();
-        if (config == null) {
-            throw new IllegalArgumentException("Consumer config property is invalid.");
-        }
         ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost(config.getHost());
-        connectionFactory.setUsername(config.getUsername());
-        connectionFactory.setPassword(config.getPassword());
+        connectionFactory.setHost(HOST);
+        connectionFactory.setUsername(USERNAME);
+        connectionFactory.setPassword(PASSWORD);
         Connection connection = connectionFactory.newConnection();
         Runnable runnable = new Runnable() {
             @Override
@@ -52,7 +52,7 @@ public class MultiThreadedConsumer {
                 }
             }
         };
-        for (int i = 0; i < config.getMaxThreads(); i++) {
+        for (int i = 0; i < MAX_THREAD; i++) {
             Thread thread = new Thread(runnable);
             thread.start();
         }

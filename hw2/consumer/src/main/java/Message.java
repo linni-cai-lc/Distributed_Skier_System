@@ -3,13 +3,13 @@ public class Message {
     private Integer liftID = null;
     private Integer waitTime = null;
     private Integer resortId = null;
-    private Integer seasonID = null;
+    private String seasonID = null;
     private Integer dayID = null;
     private Integer skierID = null;
     private String season = null;
     private String type = null;
 
-    public Message(Integer time, Integer liftID, Integer waitTime, Integer resortId, Integer seasonID,
+    public Message(Integer time, Integer liftID, Integer waitTime, Integer resortId, String seasonID,
                    Integer dayID, Integer skierID, String type) {
         this.time = time;
         this.liftID = liftID;
@@ -43,7 +43,7 @@ public class Message {
         return resortId;
     }
 
-    public Integer getSeasonID() {
+    public String getSeasonID() {
         return seasonID;
     }
 

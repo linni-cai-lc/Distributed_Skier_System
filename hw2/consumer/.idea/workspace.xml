@@ -10,25 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83afcb43-3380-4856-82a7-aff524a33c21" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Config.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/consumer_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/consumer_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/consumer_war_exploded.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/consumer.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ArgsProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ConfigProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ConsumerArgs.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LiftRide.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LiftRide.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../hw1/bonus.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../hw1/hw1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../hw1/hw1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main/java/part2/CSVProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/part2/CSVProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main/java/part2/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/part2/Calculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Config.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ConfigProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ResortInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SkierInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/StatisticsInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/SkierServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/SkierServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +105,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1646838444411</updated>
-      <workItem from="1646838447470" duration="9179000" />
+      <workItem from="1646838447470" duration="11543000" />
     </task>
     <servers />
   </component>
@@ -131,36 +122,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java</url>
-          <line>86</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java</url>
-          <line>90</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java</url>
-          <line>88</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java</url>
-          <line>85</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java</url>
-          <line>87</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
