@@ -81,8 +81,8 @@ public class MultiThreadedConsumer {
             }
             seasonList.add(season);
             resortSeasonMap.put(resortId, seasonList);
-            System.out.println("new resortSeasonMap size: " + resortSeasonMap.size());
-            System.out.println("current seasonList size: " + seasonList.size());
+//            System.out.println("new resortSeasonMap size: " + resortSeasonMap.size());
+//            System.out.println("current seasonList size: " + seasonList.size());
         } else if (type.equals(SKIERS)) {
             LiftRide liftRide = new LiftRide(liftId, time, waitTime);
             List<LiftRide> liftRideList;
@@ -93,8 +93,8 @@ public class MultiThreadedConsumer {
             }
             liftRideList.add(liftRide);
             skierLiftRideMap.put(skierId, liftRideList);
-            System.out.println("new skierLiftRideMap size: " + skierLiftRideMap.size());
-            System.out.println("current liftRideList size: " + liftRideList.size());
+//            System.out.println("new skierLiftRideMap size: " + skierLiftRideMap.size());
+//            System.out.println("current liftRideList size: " + liftRideList.size());
         } else {
             throw new InvalidPropertiesFormatException("The post message format is not valid.");
         }
