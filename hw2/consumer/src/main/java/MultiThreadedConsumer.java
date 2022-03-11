@@ -18,7 +18,7 @@ public class MultiThreadedConsumer {
     private static String PASSWORD = "test";
     private static String VHOST = "/";
 
-    private static int MAX_THREAD = 64;
+    private static int MAX_THREAD = 128;
     private static String RESORTS = "resorts";
     private static String SKIERS = "skiers";
     private static String SERVER_QUEUE = "server_queue";
@@ -46,7 +46,6 @@ public class MultiThreadedConsumer {
                     DeliverCallback deliverCallback = (tag, delivery) -> {
                         String msg = new String(delivery.getBody(), "UTF-8");
                         channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-                        System.out.println(String.format("[x] Received '%s'", msg));
                         updateInfoInMap(msg);
                     };
                     channel.basicConsume(SERVER_QUEUE, false, deliverCallback, tag -> {});
@@ -81,8 +80,6 @@ public class MultiThreadedConsumer {
             }
             seasonList.add(season);
             resortSeasonMap.put(resortId, seasonList);
-//            System.out.println("new resortSeasonMap size: " + resortSeasonMap.size());
-//            System.out.println("current seasonList size: " + seasonList.size());
         } else if (type.equals(SKIERS)) {
             LiftRide liftRide = new LiftRide(liftId, time, waitTime);
             List<LiftRide> liftRideList;
@@ -93,8 +90,6 @@ public class MultiThreadedConsumer {
             }
             liftRideList.add(liftRide);
             skierLiftRideMap.put(skierId, liftRideList);
-//            System.out.println("new skierLiftRideMap size: " + skierLiftRideMap.size());
-//            System.out.println("current liftRideList size: " + liftRideList.size());
         } else {
             throw new InvalidPropertiesFormatException("The post message format is not valid.");
         }
