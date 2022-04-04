@@ -3,6 +3,9 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPooled;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +16,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeoutException;
 
 public class MultiThreadedConsumer {
-    private static String HOST = "34.221.63.227";
+    private static String REDIS_HOST = "18.237.169.196";
+    private static String RMQ_HOST = "35.88.248.219";
     private static String USERNAME = "test";
     private static String PASSWORD = "test";
     private static String VHOST = "/";
@@ -23,14 +27,20 @@ public class MultiThreadedConsumer {
     private static String SKIERS = "skiers";
     private static String SERVER_QUEUE = "server_queue";
     private static int PER_CONSUMER_LIMIT = 1;
-    // skierId -> list of LiftRides
-    private static ConcurrentMap<Integer, List<LiftRide>> skierLiftRideMap = new ConcurrentHashMap<>();
-    // resortId -> list of seasons
-    private static ConcurrentMap<Integer, List<String>> resortSeasonMap = new ConcurrentHashMap<>();
+    private static LiftRideDao liftRideDao = new LiftRideDao();
+
+//    // skierId -> list of LiftRides
+//    private static ConcurrentMap<Integer, List<LiftRide>> skierLiftRideMap = new ConcurrentHashMap<>();
+//    // resortId -> list of seasons
+//    private static ConcurrentMap<Integer, List<String>> resortSeasonMap = new ConcurrentHashMap<>();
 
     public static void main(String args[]) throws IOException, TimeoutException {
+        JedisPool pool = new JedisPool(REDIS_HOST, 6379);
+        JedisPooled jedis = new JedisPooled(REDIS_HOST, 6379);
+        jedis.sadd("planets", "Venus");
+
         ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost(HOST);
+        connectionFactory.setHost(RMQ_HOST);
         connectionFactory.setUsername(USERNAME);
         connectionFactory.setPassword(PASSWORD);
         connectionFactory.setVirtualHost(VHOST);
@@ -68,30 +78,32 @@ public class MultiThreadedConsumer {
         Integer waitTime = message.getWaitTime();
         Integer resortId = message.getResortId();
         Integer skierId = message.getSkierID();
+        Integer seasonId = message.getSeasonID();
         String season = message.getSeason();
         String type = message.getType();
+        Integer dayId = message.getDayID();
 
-        if (type.equals(RESORTS)) {
-            List<String> seasonList;
-            if (!resortSeasonMap.containsKey(resortId)) {
-                seasonList = new ArrayList<>();
-            } else {
-                seasonList = resortSeasonMap.get(resortId);
-            }
-            seasonList.add(season);
-            resortSeasonMap.put(resortId, seasonList);
-        } else if (type.equals(SKIERS)) {
-            LiftRide liftRide = new LiftRide(liftId, time, waitTime);
-            List<LiftRide> liftRideList;
-            if (!skierLiftRideMap.containsKey(skierId)) {
-                liftRideList = new ArrayList<>();
-            } else {
-                liftRideList = skierLiftRideMap.get(skierId);
-            }
-            liftRideList.add(liftRide);
-            skierLiftRideMap.put(skierId, liftRideList);
-        } else {
-            throw new InvalidPropertiesFormatException("The post message format is not valid.");
-        }
+//        if (type.equals(RESORTS)) {
+//            List<String> seasonList;
+//            if (!resortSeasonMap.containsKey(resortId)) {
+//                seasonList = new ArrayList<>();
+//            } else {
+//                seasonList = resortSeasonMap.get(resortId);
+//            }
+//            seasonList.add(season);
+//            resortSeasonMap.put(resortId, seasonList);
+//        } else if (type.equals(SKIERS)) {
+//            LiftRide liftRide = new LiftRide(liftId, time, waitTime, seasonId, dayId, skierId);
+//            List<LiftRide> liftRideList;
+//            if (!skierLiftRideMap.containsKey(skierId)) {
+//                liftRideList = new ArrayList<>();
+//            } else {
+//                liftRideList = skierLiftRideMap.get(skierId);
+//            }
+//            liftRideList.add(liftRide);
+//            skierLiftRideMap.put(skierId, liftRideList);
+//        } else {
+//            throw new InvalidPropertiesFormatException("The post message format is not valid.");
+//        }
     }
 }

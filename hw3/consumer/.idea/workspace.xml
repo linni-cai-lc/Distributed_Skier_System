@@ -10,12 +10,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83afcb43-3380-4856-82a7-aff524a33c21" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../bonus.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../bonus.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/DBCPDataSource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/LiftRideDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Resort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ResortDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main/java/part2/CSVProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/part2/CSVProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LiftRide.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LiftRide.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MultiThreadedConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../hw2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../hw2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/ChannelFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/SkierServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/SkierServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hw3.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pom.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +92,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.MultiThreadedConsumer" />
       <item itemvalue="Application.Recv" />
@@ -101,6 +125,9 @@
       <workItem from="1646838447470" duration="16926000" />
       <workItem from="1646953965704" duration="7000" />
       <workItem from="1646954026715" duration="4493000" />
+      <workItem from="1648494150335" duration="2409000" />
+      <workItem from="1648590696690" duration="4563000" />
+      <workItem from="1649051153893" duration="17789000" />
     </task>
     <servers />
   </component>

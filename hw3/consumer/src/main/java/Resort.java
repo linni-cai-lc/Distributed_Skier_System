@@ -1,22 +1,19 @@
 import com.google.gson.annotations.SerializedName;
-public class LiftRide {
+
+public class Resort {
     @SerializedName("liftID")
     private Integer liftId;
     private Integer liftTime;
-    private Integer waitTime;
-    private Integer seasonId;
     private Integer dayId;
     private Integer skierId;
-    private Integer vertical;
+    private Integer resortId;
 
-    public LiftRide(Integer liftId, Integer liftTime, Integer waitTime, Integer seasonId, Integer dayId, Integer skierId) {
+    public Resort(Integer liftId, Integer liftTime, Integer dayId, Integer skierId, Integer resortId) {
         this.liftId = liftId;
         this.liftTime = liftTime;
-        this.waitTime = waitTime;
-        this.seasonId = seasonId;
         this.dayId = dayId;
         this.skierId = skierId;
-        this.vertical = this.liftId * 10;
+        this.resortId = resortId;
     }
 
     public Integer getLiftId() {
@@ -27,14 +24,6 @@ public class LiftRide {
         return liftTime;
     }
 
-    public Integer getWaitTime() {
-        return waitTime;
-    }
-
-    public Integer getSeasonId() {
-        return seasonId;
-    }
-
     public Integer getDayId() {
         return dayId;
     }
@@ -43,7 +32,7 @@ public class LiftRide {
         return skierId;
     }
 
-    public Integer getVertical() {
-        return vertical;
+    public Integer getResortId() {
+        return resortId;
     }
 }
