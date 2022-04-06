@@ -83,7 +83,9 @@ public class SkiersApiTest {
         String seasonID = null;
         String dayID = null;
         Integer skierID = null;
-        api.writeNewLiftRide(body, resortID, seasonID, dayID, skierID);
+        Integer liftID = null;
+        Integer liftTime = null;
+        api.writeNewLiftRide(body, resortID, seasonID, dayID, skierID, liftID, liftTime);
 
         // TODO: test validations
     }

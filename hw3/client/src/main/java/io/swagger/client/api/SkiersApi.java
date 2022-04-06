@@ -360,15 +360,17 @@ public class SkiersApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call writeNewLiftRideCall(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call writeNewLiftRideCall(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID, Integer liftID, Integer liftTime, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
-        String localVarPath = "/skiers/{resortID}/seasons/{seasonID}/days/{dayID}/skiers/{skierID}"
+        String localVarPath = "/skiers/{resortID}/seasons/{seasonID}/days/{dayID}/skiers/{skierID}/lifts/{liftID}/time/{liftTime}"
             .replaceAll("\\{" + "resortID" + "\\}", apiClient.escapeString(resortID.toString()))
             .replaceAll("\\{" + "seasonID" + "\\}", apiClient.escapeString(seasonID.toString()))
             .replaceAll("\\{" + "dayID" + "\\}", apiClient.escapeString(dayID.toString()))
-            .replaceAll("\\{" + "skierID" + "\\}", apiClient.escapeString(skierID.toString()));
+            .replaceAll("\\{" + "skierID" + "\\}", apiClient.escapeString(skierID.toString()))
+            .replaceAll("\\{" + "liftID" + "\\}", apiClient.escapeString(liftID.toString()))
+            .replaceAll("\\{" + "liftTime" + "\\}", apiClient.escapeString(liftTime.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -406,7 +408,7 @@ public class SkiersApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call writeNewLiftRideValidateBeforeCall(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call writeNewLiftRideValidateBeforeCall(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID, Integer liftID, Integer liftTime, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling writeNewLiftRide(Async)");
@@ -427,8 +429,16 @@ public class SkiersApi {
         if (skierID == null) {
             throw new ApiException("Missing the required parameter 'skierID' when calling writeNewLiftRide(Async)");
         }
+        // verify the required parameter 'dayID' is set
+        if (liftID == null) {
+            throw new ApiException("Missing the required parameter 'liftID' when calling writeNewLiftRide(Async)");
+        }
+        // verify the required parameter 'skierID' is set
+        if (liftTime == null) {
+            throw new ApiException("Missing the required parameter 'liftTime' when calling writeNewLiftRide(Async)");
+        }
         
-        com.squareup.okhttp.Call call = writeNewLiftRideCall(body, resortID, seasonID, dayID, skierID, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = writeNewLiftRideCall(body, resortID, seasonID, dayID, skierID, liftID, liftTime, progressListener, progressRequestListener);
         return call;
 
         
@@ -447,8 +457,8 @@ public class SkiersApi {
      * @param skierID ID of the skier riding the lift (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void writeNewLiftRide(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID) throws ApiException {
-        writeNewLiftRideWithHttpInfo(body, resortID, seasonID, dayID, skierID);
+    public void writeNewLiftRide(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID, Integer liftID, Integer liftTime) throws ApiException {
+        writeNewLiftRideWithHttpInfo(body, resortID, seasonID, dayID, skierID, liftID, liftTime);
     }
 
     /**
@@ -462,8 +472,8 @@ public class SkiersApi {
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> writeNewLiftRideWithHttpInfo(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID) throws ApiException {
-        com.squareup.okhttp.Call call = writeNewLiftRideValidateBeforeCall(body, resortID, seasonID, dayID, skierID, null, null);
+    public ApiResponse<Void> writeNewLiftRideWithHttpInfo(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID, Integer liftID, Integer liftTime) throws ApiException {
+        com.squareup.okhttp.Call call = writeNewLiftRideValidateBeforeCall(body, resortID, seasonID, dayID, skierID, liftID, liftTime, null, null);
         return apiClient.execute(call);
     }
 
@@ -479,7 +489,7 @@ public class SkiersApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call writeNewLiftRideAsync(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID, final ApiCallback<Void> callback) throws ApiException {
+    public com.squareup.okhttp.Call writeNewLiftRideAsync(LiftRide body, Integer resortID, String seasonID, String dayID, Integer skierID, Integer liftID, Integer liftTime, final ApiCallback<Void> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -500,7 +510,7 @@ public class SkiersApi {
             };
         }
 
-        com.squareup.okhttp.Call call = writeNewLiftRideValidateBeforeCall(body, resortID, seasonID, dayID, skierID, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = writeNewLiftRideValidateBeforeCall(body, resortID, seasonID, dayID, skierID, liftID, liftTime, progressListener, progressRequestListener);
         apiClient.executeAsync(call, callback);
         return call;
     }
