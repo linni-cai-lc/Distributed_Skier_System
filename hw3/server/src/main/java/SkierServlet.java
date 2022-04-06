@@ -184,21 +184,18 @@ public class SkierServlet extends HttpServlet {
             }
         }
         // skiers POST: write a new lift ride for the skier
-        //  0    1         2           3       4           5      6       7        8         9       10       11     12
-        // ["", "skiers", resortID, "seasons", seasonID, "days", dayID, "skiers", skierID, "lifts", liftID, "time", liftTime]
-        else if (urlPartsSize == 13 &&
+        //  0    1         2           3       4           5      6       7        8
+        // ["", "skiers", resortID, "seasons", seasonID, "days", dayID, "skiers", skierID]
+        else if (urlPartsSize == 9 &&
                  urlParts[1].equalsIgnoreCase(SKIERS) &&
                  urlParts[3].equalsIgnoreCase(SEASONS) &&
                  urlParts[5].equalsIgnoreCase(DAYS) &&
-                 urlParts[7].equalsIgnoreCase(SKIERS) &&
-                 urlParts[9].equalsIgnoreCase(LIFTS) &&
-                 urlParts[11].equalsIgnoreCase(TIME)) {
+                 urlParts[7].equalsIgnoreCase(SKIERS)) {
             String resortId = urlParts[2];
             String seasonID = urlParts[4];
             String dayID = urlParts[6];
             String skierID = urlParts[8];
-            String liftID = urlParts[10];
-            String liftTime = urlParts[12];
+
             try {
                 String postBodyStr = req.getReader().lines().collect(Collectors.joining());
                 JsonObject postBodyJson = new JsonParser().parse(postBodyStr).getAsJsonObject();

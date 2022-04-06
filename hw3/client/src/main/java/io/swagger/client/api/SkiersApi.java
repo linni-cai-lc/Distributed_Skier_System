@@ -364,13 +364,11 @@ public class SkiersApi {
         Object localVarPostBody = body;
         
         // create path and map variables
-        String localVarPath = "/skiers/{resortID}/seasons/{seasonID}/days/{dayID}/skiers/{skierID}/lifts/{liftID}/time/{liftTime}"
+        String localVarPath = "/skiers/{resortID}/seasons/{seasonID}/days/{dayID}/skiers/{skierID}"
             .replaceAll("\\{" + "resortID" + "\\}", apiClient.escapeString(resortID.toString()))
             .replaceAll("\\{" + "seasonID" + "\\}", apiClient.escapeString(seasonID.toString()))
             .replaceAll("\\{" + "dayID" + "\\}", apiClient.escapeString(dayID.toString()))
-            .replaceAll("\\{" + "skierID" + "\\}", apiClient.escapeString(skierID.toString()))
-            .replaceAll("\\{" + "liftID" + "\\}", apiClient.escapeString(liftID.toString()))
-            .replaceAll("\\{" + "liftTime" + "\\}", apiClient.escapeString(liftTime.toString()));
+            .replaceAll("\\{" + "skierID" + "\\}", apiClient.escapeString(skierID.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
