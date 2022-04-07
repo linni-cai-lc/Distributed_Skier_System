@@ -21,10 +21,10 @@ public class SkierServlet extends HttpServlet {
     private String SKIERS = "skiers";
     private String VERTICAL = "vertical";
     private String STATISTICS = "statistics";
-    private String LIFTS = "lifts";
-    private String TIME = "time";
     private String SERVER_QUEUE = "server_queue";
     private ObjectPool<Channel> pool;
+    private static final String EXCHANGE_NAME = "logs";
+    private static final String EXCHANGE_TYPE = "fanout";
 
     @Override
     public void init() throws ServletException {
@@ -195,7 +195,6 @@ public class SkierServlet extends HttpServlet {
             String seasonID = urlParts[4];
             String dayID = urlParts[6];
             String skierID = urlParts[8];
-
             try {
                 String postBodyStr = req.getReader().lines().collect(Collectors.joining());
                 JsonObject postBodyJson = new JsonParser().parse(postBodyStr).getAsJsonObject();
@@ -203,8 +202,6 @@ public class SkierServlet extends HttpServlet {
                 postBodyJson.addProperty("seasonID", seasonID);
                 postBodyJson.addProperty("dayID", dayID);
                 postBodyJson.addProperty("skierID", skierID);
-                postBodyJson.addProperty("liftID", liftID);
-                postBodyJson.addProperty("liftTime", liftTime);
                 postBodyJson.addProperty("type", "lift_ride");
                 sendDataToQueue(postBodyJson);
                 res.setStatus(HttpServletResponse.SC_CREATED);
@@ -223,8 +220,9 @@ public class SkierServlet extends HttpServlet {
     private boolean sendDataToQueue(JsonObject bodyJson) {
          try {
              Channel channel = pool.borrowObject();
-             channel.queueDeclare(SERVER_QUEUE, true, false, false, null);
-             channel.basicPublish("", SERVER_QUEUE, null, bodyJson.toString().getBytes(StandardCharsets.UTF_8));
+             channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
+//             channel.queueDeclare(SERVER_QUEUE, true, false, false, null);
+             channel.basicPublish(EXCHANGE_NAME, SERVER_QUEUE, null, bodyJson.toString().getBytes(StandardCharsets.UTF_8));
              pool.returnObject(channel);
              System.out.println(String.format(" [x] Sent '%s'", bodyJson));
              return true;
