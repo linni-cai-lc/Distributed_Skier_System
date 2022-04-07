@@ -12,8 +12,12 @@ public class Calculator {
         this.end = end;
 
         for (String[] record : records) {
-            int latency = Integer.parseInt(record[2]);
-            statistics.add(latency);
+            try {
+                int latency = Integer.parseInt(record[2]);
+                statistics.add(latency);
+            } catch (Exception e) {
+                System.out.println("latency is not valid");
+            }
         }
         Collections.sort(statistics);
     }
@@ -42,7 +46,7 @@ public class Calculator {
 
     // throughput = total number of requests/wall time (requests/second)
     public long getThroughput() {
-        return statistics.size() / ((end - start) / 1000);
+        return statistics.size() / (end - start) * 1000;
     }
 
     // p99 (99th percentile) response time

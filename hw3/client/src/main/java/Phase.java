@@ -2,11 +2,13 @@ import io.swagger.client.ApiException;
 import io.swagger.client.ApiResponse;
 import io.swagger.client.api.SkiersApi;
 import io.swagger.client.model.LiftRide;
+import org.apache.commons.lang3.concurrent.EventCountCircuitBreaker;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Phase {
@@ -30,6 +32,8 @@ public class Phase {
     public CountDownLatch nextPhaseCompleted;
     public SkiersApi skiersApi;
     public List<String[]> records = new ArrayList<>();
+    private EventCountCircuitBreaker breaker;
+    private int OPENING_THRESHOLD = 10;
 
     public Phase(int numThreads, int numSkiers, int startTime, int endTime, int numLifts,
                  int numPosts, AtomicInteger numSuccessReq, AtomicInteger numUnsuccessReq,
@@ -89,11 +93,14 @@ public class Phase {
     }
 
     public Runnable createRunnable(final int threadIndex) {
+        breaker = new EventCountCircuitBreaker(1000, 1000, TimeUnit.MILLISECONDS, 800, 2, TimeUnit.MILLISECONDS);
+
         return new Runnable() {
             @Override
             public void run() {
                 // POST
-                for (int i = 0; i < numPosts; i++) {
+                AtomicInteger currentNumPosts = new AtomicInteger(0);
+                while (currentNumPosts.get() < numPosts) {
                     String statusCode = "N/A";
                     int skierId = getRandomSkierId(threadIndex);
 //                    System.out.println(String.format("------- THREAD: %d, POST: %d, ID: %d ---------", threadIndex, i, skierId));
@@ -102,36 +109,40 @@ public class Phase {
                     long start = -1;
                     long end = -1;
                     boolean successFlag = false;
-                    for (int j = 0; j < MAX_TRY_COUNT; j++) {
-                        try {
-                            start = System.currentTimeMillis();
-                            ApiResponse<Void> res = skiersApi.writeNewLiftRideWithHttpInfo(liftRide, RESORT_ID, SEASON_ID, DAY_ID, skierId, liftRide.getLiftID(), liftRide.getTime());
-                            end = System.currentTimeMillis();
+                    if (breaker.incrementAndCheckState()) {
+                        for (int j = 0; j < MAX_TRY_COUNT; j++) {
+                            try {
+                                start = System.currentTimeMillis();
+                                ApiResponse<Void> res = skiersApi.writeNewLiftRideWithHttpInfo(liftRide, RESORT_ID, SEASON_ID, DAY_ID, skierId, liftRide.getLiftID(), liftRide.getTime());
+                                end = System.currentTimeMillis();
 
-                            statusCode = String.valueOf(res.getStatusCode());
-                            if (res.getStatusCode() == HttpServletResponse.SC_CREATED) {
-                                successFlag = true;
-                                break;
-                            } else {
-                                System.out.println(String.format("ERROR: %d time POST Failure with invalid status", j + 1));
+                                statusCode = String.valueOf(res.getStatusCode());
+                                if (res.getStatusCode() == HttpServletResponse.SC_CREATED) {
+                                    successFlag = true;
+                                    break;
+                                } else {
+                                    System.out.println(String.format("ERROR: %d time POST Failure with invalid status", j + 1));
+                                }
+                            } catch (ApiException e) {
+                                System.out.println(String.format("ERROR: %d time POST Failure with API Exception", j + 1));
                             }
-                        } catch (ApiException e) {
-                            System.out.println(String.format("ERROR: %d time POST Failure with API Exception", j + 1));
                         }
-                    }
 
-                    if (successFlag) {
-                        numSuccessReq.incrementAndGet();
-                    } else {
-                        numUnsuccessReq.incrementAndGet();
-                    }
+                        if (successFlag) {
+                            numSuccessReq.incrementAndGet();
+                        } else {
+                            numUnsuccessReq.incrementAndGet();
+                        }
+                        currentNumPosts.incrementAndGet();
 
-                    long duration = end - start;
-                    //   0            1                      2        3
-                    // {start time, request type (ie POST), latency, response code}
-                    String[] record = {String.valueOf(start), POST, String.valueOf(duration), statusCode};
-                    records.add(record);
+                        long duration = end - start;
+                        //   0            1                      2        3
+                        // {start time, request type (ie POST), latency, response code}
+                        String[] record = {String.valueOf(start), POST, String.valueOf(duration), statusCode};
+                        records.add(record);
+                    }
                 }
+//                if (currentNumPosts)
                 totalCompleted.countDown();
                 if (nextPhaseCompleted != null) {
                     nextPhaseCompleted.countDown();

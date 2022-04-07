@@ -8,7 +8,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClientMultiThreaded {
-    //    private static final String PATH = "/server_war_exploded/ski"; // LOCAL
+//    private static final String PATH = "/server_war_exploded/ski"; // LOCAL
     private static final String PATH = "/server_war/ski"; // AWS
     private static final String HTTP_PREFIX = "http://";
     private static final double PHASE_PCT = 0.2;
@@ -85,7 +85,7 @@ public class ClientMultiThreaded {
         long end = System.currentTimeMillis();
 
         long duration = end - start;
-        long throughput = (numSuccessReq.get() + numUnsuccessReq.get()) / (duration / 1000);
+        long throughput = (numSuccessReq.get() + numUnsuccessReq.get()) / duration * 1000;
         System.out.println("\n------  Statistics  ------\n");
         System.out.println("------  PART 1  ------");
         System.out.println("number of successful requests sent: " + numSuccessReq);
@@ -98,8 +98,6 @@ public class ClientMultiThreaded {
         records.addAll(phase1.records);
         records.addAll(phase2.records);
         records.addAll(phase3.records);
-//        CSVProcessor processor = new CSVProcessor(records, start);
-//        processor.generateCSV();
 
         System.out.println("------  PART 2  ------");
         Calculator calculator = new Calculator(records, start, end);
