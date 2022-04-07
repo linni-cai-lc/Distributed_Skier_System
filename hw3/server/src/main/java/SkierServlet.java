@@ -221,7 +221,7 @@ public class SkierServlet extends HttpServlet {
          try {
              Channel channel = pool.borrowObject();
              channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
-//             channel.queueDeclare(SERVER_QUEUE, true, false, false, null);
+             channel.queueDeclare(SERVER_QUEUE, true, false, false, null);
              channel.basicPublish(EXCHANGE_NAME, SERVER_QUEUE, null, bodyJson.toString().getBytes(StandardCharsets.UTF_8));
              pool.returnObject(channel);
              System.out.println(String.format(" [x] Sent '%s'", bodyJson));

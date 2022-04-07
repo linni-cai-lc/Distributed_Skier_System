@@ -37,6 +37,7 @@ public class MultiThreadedConsumer {
             public void run() {
                 try {
                     Channel channel = connection.createChannel();
+                    channel.queueDeclare(QUEUE_NAME, true, false, false, null);
                     channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
                     channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "");
                     System.out.println("[*] Waiting for messages. To exit press CTRL+C");
