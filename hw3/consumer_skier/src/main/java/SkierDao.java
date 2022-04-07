@@ -1,21 +1,14 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPooled;
 
 public class SkierDao {
     private JedisPooled jedis;
-//    private Jedis jedis;
-    private static int SKIER_INDEX = 0;
     private static String SKIER = "SKIER";
 
     public SkierDao(JedisPooled jedis) {
         this.jedis = jedis;
     }
-
-//    public SkierDao(Jedis jedis) {
-//        this.jedis = jedis;
-//    }
 
     public void createSkier(LiftRide newLiftRide) {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -23,8 +16,6 @@ public class SkierDao {
         String liftRideJson = gson.toJson(newLiftRide, LiftRide.class);
         String skierId = newLiftRide.getSkierID();
         jedis.hset(SKIER, skierId, liftRideJson);
-//        jedis.select(SKIER_INDEX);
-//        jedis.set(skierId, liftRideJson);
 //        System.out.println("SKIER: " + jedis.hget(SKIER, skierId));
     }
 //

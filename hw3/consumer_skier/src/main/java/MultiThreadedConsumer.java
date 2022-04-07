@@ -10,14 +10,14 @@ import java.util.InvalidPropertiesFormatException;
 import java.util.concurrent.TimeoutException;
 
 public class MultiThreadedConsumer {
-    private static String REDIS_HOST = "34.219.138.154";
-    private static String RMQ_HOST = "34.219.86.177";
+    private static String REDIS_HOST = "54.149.9.42";
+    private static String RMQ_HOST = "54.186.227.90";
     private static String USERNAME = "test";
     private static String PASSWORD = "test";
     private static String VHOST = "/";
     private static String QUEUE_NAME = "server_queue";
 
-    private static int MAX_THREAD = 256;
+    private static int MAX_THREAD = 128;
     private static String LIFT_RIDE = "lift_ride";
     private static final String EXCHANGE_NAME = "logs";
     private static final String EXCHANGE_TYPE = "fanout";
@@ -48,8 +48,7 @@ public class MultiThreadedConsumer {
                         // System.out.println(" [x] Received '" + message + "'");
                         createSkier(message);
                     };
-                    channel.basicConsume(QUEUE_NAME, true, deliverCallback, tag -> {
-                    });
+                    channel.basicConsume(QUEUE_NAME, true, deliverCallback, tag -> {});
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
