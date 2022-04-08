@@ -14,8 +14,8 @@ public class SkierDao {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
         String liftRideJson = gson.toJson(newLiftRide, LiftRide.class);
-        String skierId = newLiftRide.getSkierID();
-        jedis.hset(SKIER, skierId, liftRideJson);
+        String skierUUID = newLiftRide.getSkierID() + "-" + newLiftRide.getLiftTime();
+        jedis.hset(SKIER, skierUUID, liftRideJson);
 //        System.out.println("SKIER: " + jedis.hget(SKIER, skierId));
     }
 //

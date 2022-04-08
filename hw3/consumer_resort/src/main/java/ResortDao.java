@@ -14,8 +14,8 @@ public class ResortDao {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
         String liftRideJson = gson.toJson(newLiftRide, LiftRide.class);
-        String dayId = newLiftRide.getDayID();
-        jedis.hset(RESORT, dayId, liftRideJson);
+        String dayUUID = newLiftRide.getDayID() + "-" + newLiftRide.getSkierID() + "-" + newLiftRide.getLiftTime();
+        jedis.hset(RESORT, dayUUID, liftRideJson);
 //        System.out.println("RESORT: " + jedis.hget(RESORT, dayId));
     }
 //

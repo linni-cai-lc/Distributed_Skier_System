@@ -93,7 +93,7 @@ public class Phase {
     }
 
     public Runnable createRunnable(final int threadIndex) {
-        breaker = new EventCountCircuitBreaker(1000, 1000, TimeUnit.MILLISECONDS, 800, 2, TimeUnit.MILLISECONDS);
+        breaker = new EventCountCircuitBreaker(1000, 100, TimeUnit.MILLISECONDS, 800, 100, TimeUnit.MILLISECONDS);
 
         return new Runnable() {
             @Override
