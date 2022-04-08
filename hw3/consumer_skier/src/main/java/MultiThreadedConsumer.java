@@ -10,8 +10,8 @@ import java.util.InvalidPropertiesFormatException;
 import java.util.concurrent.TimeoutException;
 
 public class MultiThreadedConsumer {
-    private static String REDIS_HOST = "18.237.180.81";
-    private static String RMQ_HOST = "54.187.171.19";
+    private static String REDIS_HOST = "35.163.211.58";
+    private static String RMQ_HOST = "54.186.241.27";
     private static String USERNAME = "test";
     private static String PASSWORD = "test";
     private static String VHOST = "/";
@@ -47,8 +47,9 @@ public class MultiThreadedConsumer {
                         String message = new String(delivery.getBody(), "UTF-8");
                         // System.out.println(" [x] Received '" + message + "'");
                         createSkier(message);
+                        channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
                     };
-                    channel.basicConsume(QUEUE_NAME, true, deliverCallback, tag -> {});
+                    channel.basicConsume(QUEUE_NAME, false, deliverCallback, tag -> {});
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
