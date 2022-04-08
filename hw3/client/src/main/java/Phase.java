@@ -33,7 +33,6 @@ public class Phase {
     public SkiersApi skiersApi;
     public List<String[]> records = new ArrayList<>();
     private EventCountCircuitBreaker breaker;
-    private int OPENING_THRESHOLD = 10;
 
     public Phase(int numThreads, int numSkiers, int startTime, int endTime, int numLifts,
                  int numPosts, AtomicInteger numSuccessReq, AtomicInteger numUnsuccessReq,
@@ -93,7 +92,7 @@ public class Phase {
     }
 
     public Runnable createRunnable(final int threadIndex) {
-        breaker = new EventCountCircuitBreaker(1000, 100, TimeUnit.MILLISECONDS, 800, 100, TimeUnit.MILLISECONDS);
+        breaker = new EventCountCircuitBreaker(10000, 1, TimeUnit.SECONDS, 100000, 2, TimeUnit.SECONDS);
 
         return new Runnable() {
             @Override
@@ -142,7 +141,6 @@ public class Phase {
                         records.add(record);
                     }
                 }
-//                if (currentNumPosts)
                 totalCompleted.countDown();
                 if (nextPhaseCompleted != null) {
                     nextPhaseCompleted.countDown();
