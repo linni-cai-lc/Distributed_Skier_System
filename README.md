@@ -1,4 +1,1 @@
-# CS6650_Distributed_System
-
-## Name: Linni Cai
-## Email: cai.linn@northeastern.edu
+Built a scalable distributed cloud-based system that can record all lift rides from all Upic resorts.
